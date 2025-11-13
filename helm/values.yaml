@@ -7,7 +7,7 @@ replicaCount: 1
 
 
 global:
-  namespace: home-lab
+  namespace: mcp-example-app
   version: "0.1a"
 
 postgres:
