@@ -1,0 +1,20 @@
+# ------------------------------------------------------------------------------
+# Ollama :
+# ------------------------------------------------------------------------------
+service: true
+serviceName: ollama
+name: ollama
+# image: dpage/pgadmin4:7.8
+# imagePullPolicy: IfNotPresent
+# replicas: 1
+# env:
+#   - name: PGADMIN_DEFAULT_EMAIL
+#     value: "admin@email.com"
+#   - name: PGADMIN_DEFAULT_PASSWORD
+#     value: "admin"
+service_type: ClusterIP
+service:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
+    nodePort: 11434

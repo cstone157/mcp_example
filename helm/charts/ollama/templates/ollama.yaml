@@ -1,0 +1,87 @@
+{{- $object := .Values -}}
+{{- if $object.enabled }}
+  {{- $_ := set $object "version" .Values.global.version -}}
+  {{- if not $object.namespace -}}
+    {{- $_ := set $object "namespace" .Values.global.namespace -}}
+  {{- end }}
+
+
+  {{/* Add Service if they are required */}} 
+  {{/*- template "mychart.service" $object */}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: ollama-service
+  namespace: {{ $object.namespace }}
+spec:
+  selector:
+    app: ollama
+  ports:
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
+  type: ClusterIP
+
+  {{/* Add Statefulset if they are required */}}
+  {{/*- template "mychart.statefulset" $object */}}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ollama
+  namespace: {{ $object.namespace }}
+  labels:
+    app: ollama
+spec:
+  serviceName: "ollama-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      containers:
+      - name: ollama
+        image: ollama/ollama:0.12.11
+        ports:
+        - containerPort: 11434
+          name: http
+        # volumeMounts:
+        # - name: ollama-data
+        #   mountPath: /root/.ollama # Or /home/ollama/.ollama depending on the image
+        env:
+        - name: OLLAMA_HOST
+          value: "0.0.0.0:11434" # Expose Ollama on all interfaces within the pod
+        # Uncomment and configure resource requests/limits if needed
+        # resources:
+        #   requests:
+        #     memory: "4Gi"
+        #     cpu: "2000m"
+        #   limits:
+        #     memory: "8Gi"
+        #     cpu: "4000m"
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: ollama-data
+  #   spec:
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     resources:
+  #       requests:
+  #         storage: 50Gi # Adjust storage size as needed for models
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: ollama-pvc
+#   namespace: ollama
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 20Gi # Adjust size as needed for your models
+
+{{- end }}
