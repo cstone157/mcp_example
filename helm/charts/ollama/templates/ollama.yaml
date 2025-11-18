@@ -33,7 +33,7 @@ metadata:
   labels:
     app: ollama
 spec:
-  serviceName: "ollama-service"
+  # serviceName: "ollama-service"
   replicas: 1
   selector:
     matchLabels:
@@ -48,13 +48,14 @@ spec:
         image: ollama/ollama:0.12.11
         ports:
         - containerPort: 11434
+          protocol: TCP
           name: http
         # volumeMounts:
         # - name: ollama-data
         #   mountPath: /root/.ollama # Or /home/ollama/.ollama depending on the image
-        env:
-        - name: OLLAMA_HOST
-          value: "0.0.0.0:11434" # Expose Ollama on all interfaces within the pod
+        # env:
+        # - name: OLLAMA_HOST
+        #   value: "0.0.0.0:11434" # Expose Ollama on all interfaces within the pod
         # Uncomment and configure resource requests/limits if needed
         # resources:
         #   requests:
