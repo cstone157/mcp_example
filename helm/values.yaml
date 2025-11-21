@@ -16,3 +16,5 @@ pgadmin:
   enabled: true
 ollama:
   enabled: true
+nifi:
+  enabled: true
