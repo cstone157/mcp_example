@@ -14,7 +14,10 @@ postgres:
   enabled: true
 pgadmin:
   enabled: true
+nifi:
+  enabled: true
+
 ollama:
   enabled: true
-nifi:
+webui:
   enabled: true

@@ -1,4 +1,3 @@
-
 {{- $object := .Values -}}
 {{- if $object.enabled }}
   {{- $_ := set $object "version" .Values.global.version -}}
