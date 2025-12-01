@@ -1,0 +1,28 @@
+nameOverride: ""
+fullnameOverride: ""
+
+ollama:
+  persistence:
+    size: 50Gi  # Override sub-chart default to hold bigger models
+  # resources:
+  #   limits:
+  #     nvidia.com/gpu: 1 # Enable GPU if available
+
+image:
+  repository: ollama/ollama
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 11434
+
+persistence:
+  enabled: true
+  size: 20Gi
+  accessMode: ReadWriteOnce
+  # storageClass: "standard" # Uncomment if you need a specific class
+
+resources: {}
+  # limits:
+  #   nvidia.com/gpu: 1  # Uncomment if your cluster has GPUs
