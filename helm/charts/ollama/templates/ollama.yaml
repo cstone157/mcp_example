@@ -1,0 +1,69 @@
+{{- $object := .Values -}}
+{{- $_ := set $object "version" .Values.global.version -}}
+{{- if not $object.namespace -}}
+    {{- $_ := set $object "namespace" .Values.global.namespace -}}
+{{- end }}
+## Generate the Service using the helper function to create our service
+{{- template "mychart.service" $object }}
+
+{{- if $object.enabled }}
+---
+## Generate the StatefulSet for the ollama pod
+apiVersion: apps/v1
+kind: StatefulSet
+{{- template "mychart.metadata" $object }}
+spec:
+  replicas: {{ $object.replicas }}
+  serviceName: {{ $object.name }}
+  selector:
+    matchLabels:
+      app: {{ $object.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $object.name }}
+    spec:
+      containers:
+      - name: {{ $object.name }}
+        image: {{ $object.image }}
+        imagePullPolicy: {{ $object.imagePullPolicy }}
+        ports:
+        {{- range $object.service }}
+        - containerPort: {{ .port }}
+        {{- if .name }}
+          name: {{ .name }}
+        {{- end }}
+        {{- if .protocol }}
+          protocol: {{ .protocol }}
+        {{- end }}
+        {{- end }}
+        env:
+          {{- range $object.env }}
+          - name: {{ .name | quote }}
+            value: {{ .value | quote }}
+          {{- end }}
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "for model in $PRELOAD_MODELS; do ollama run $model \"\"; done"]
+  #       resources: # Commendted out, everytime this resource setup is deployed on a rancher desktop it will crash
+  #         requests:
+  #           cpu: "2000m"
+  #           memory: "2Gi"
+  #         limits:
+  #           cpu: "4000m"
+  #           memory: "4Gi"
+  #           nvidia.com/gpu: "0"
+  #       volumeMounts:
+  #       - name: ollama-volume
+  #         mountPath: /root/.ollama
+  #       tty: true
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: ollama-volume
+  #   spec:
+  #     accessModes: [ "ReadWriteOnce" ]
+  #     resources:
+  #       requests:
+  #         storage: 30Gi
+{{- end }}

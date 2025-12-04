@@ -1,3 +1,66 @@
+# # ------------------------------------------------------------------------------
+# # General informations:
+# # ------------------------------------------------------------------------------
+global:
+  namespace: tmdash
+  version: "0.1a"
+
+
+ollama:
+  enabled: true
+
+open-webui:
+  enabled: true
+
+
+# # ------------------------------------------------------------------------------
+# # Airflow :
+# # ------------------------------------------------------------------------------
+# # namespaceOverride: airflow
+# dags:
+#   gitSync: # git sync between our airflow works/schedulers
+#     enabled: false
+#     repo: https://<USER_NAME>:<USER_PAT>@gitlab.vulcan.mil/usaf-805th-cts/cba/tm-dash/prefect-flows.git
+#     branch: v01-dag
+#     subPath: ""
+# #     sshKeySecret: airflow-ssh-secret
+# # extraSecrets:
+# #   airflow-ssh-secret:
+# #     data: |
+# #       gitSshKey: '<base64-converted-ssh-private-key>'
+
+
+
+
+# # ------------------------------------------------------------------------------
+# # JupyterLab :
+# # ------------------------------------------------------------------------------
+# jupyter:
+#   enabled: false
+#   name: jupyter
+#   image: jupyter/minimal-notebook:notebook-7.0.6  # jupyter/minimal-notebook:x86_64-python-3.11.6 # jupyter/datascience-notebook:x86_64-ubuntu-22.04
+#   imagePullPolicy: IfNotPresent
+#   replicas: 1
+#   env:
+#     - name: JUPYTER_PORT  
+#       value: "8888"
+#     - name: RESTARTABLE
+#       value: "yes"
+#   service_type: NodePort
+#   service:
+#     - protocol: TCP
+#       nodePort: 30020
+#       port: 8888
+
+
+
+
+
+
+# # ==========================================================================================================================================================================================
+# #                                               OLD VERSION
+# # ==========================================================================================================================================================================================
+
 # Default values for helm.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -123,21 +186,25 @@
 # affinity: {}
 
 
-# Configure the sub-chart
-ollama:
-  fullname: "ollama"
-  persistence:
-    size: 50Gi  # Override sub-chart default to hold bigger models
-  # resources:
-  #   limits:
-  #     nvidia.com/gpu: 1 # Enable GPU if available
+# # Configure the sub-chart
+# ollama:
+#   fullname: "ollama"
+#   persistence:
+#     size: 50Gi  # Override sub-chart default to hold bigger models
+#   # resources:
+#   #   limits:
+#   #     nvidia.com/gpu: 1 # Enable GPU if available
 
-open-webui:
-  fullname: "open-webui"
-  service:
-    type: LoadBalancer # Use NodePort or ClusterIP if using Ingress
-  config:
-    # IMPORTANT: This links the UI to the Ollama Service.
-    # Format: http://<release-name>-ollama:11434
-    # Example: If you run 'helm install demo my-app', this should be 'http://demo-ollama:11434'
-    ollamaBaseUrl: "http://demo-ollama:11434"
+# open-webui:
+#   fullname: "open-webui"
+#   # service:
+#   #   type: LoadBalancer # Use NodePort or ClusterIP if using Ingress
+#   # config:
+#   #   # IMPORTANT: This links the UI to the Ollama Service.
+#   #   # Format: http://<release-name>-ollama:11434
+#   #   # Example: If you run 'helm install demo my-app', this should be 'http://demo-ollama:11434'
+#   #   ollamaBaseUrl: "http://demo-ollama:11434"
+
+
+
+

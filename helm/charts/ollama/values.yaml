@@ -1,28 +1,47 @@
-nameOverride: ""
-fullnameOverride: ""
-
-ollama:
-  persistence:
-    size: 50Gi  # Override sub-chart default to hold bigger models
-  # resources:
-  #   limits:
-  #     nvidia.com/gpu: 1 # Enable GPU if available
-
-image:
-  repository: ollama/ollama
-  tag: latest
-  pullPolicy: IfNotPresent
-
+# # ------------------------------------------------------------------------------
+# # Ollama :
+# # ------------------------------------------------------------------------------
+name: ollama
+image: ollama/ollama:0.13.1
+imagePullPolicy: IfNotPresent
+replicas: 1
+env:
+  - name: PRELOAD_MODELS
+    value: "mistral:7b"
+  - name: OLLAMA_KEEP_ALIVE 
+    value: "12h"
 service:
-  type: ClusterIP
-  port: 11434
+  - protocol: TCP
+    port: 11434
+    targetPort: 11434
 
-persistence:
-  enabled: true
-  size: 20Gi
-  accessMode: ReadWriteOnce
-  # storageClass: "standard" # Uncomment if you need a specific class
 
-resources: {}
-  # limits:
-  #   nvidia.com/gpu: 1  # Uncomment if your cluster has GPUs
+# nameOverride: ""
+# fullnameOverride: ""
+
+# ollama:
+#   persistence:
+#     size: 50Gi  # Override sub-chart default to hold bigger models
+#   # resources:
+#   #   limits:
+#   #     nvidia.com/gpu: 1 # Enable GPU if available
+
+# image:
+#   repository: ollama/ollama
+#   tag: latest
+#   pullPolicy: IfNotPresent
+
+# service:
+#   type: ClusterIP
+#   port: 11434
+
+# persistence:
+#   enabled: true
+#   size: 20Gi
+#   accessMode: ReadWriteOnce
+#   # storageClass: "standard" # Uncomment if you need a specific class
+
+# resources: {}
+#   # limits:
+#   #   nvidia.com/gpu: 1  # Uncomment if your cluster has GPUs
+
