@@ -1,0 +1,15 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: image-repository
+  labels:
+    app: registry
+  namespace: {{ .Values.namespace }}
+spec:
+  type: ClusterIP # Or NodePort, ClusterIP, etc.
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: image-repository
