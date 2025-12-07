@@ -1,0 +1,27 @@
+persistence:
+  accessMode: 'ReadWriteOnce'
+  enabled: true
+  size: 10Gi
+  # If you have a specific storage class, uncomment below:
+  # storageClass: "standard"
+
+ingress:
+  enabled: true
+  className: nginx
+  path: /
+  # IMPORTANT: Fix for "Entity Too Large" errors when pushing large images
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    # This connects to the cert-manager ClusterIssuer you created earlier
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    
+  hosts:
+    - registry.yourdomain.com
+  tls:
+    - secretName: registry-tls
+      hosts:
+        - registry.yourdomain.com
+
+# Link the authentication secret we created in Step 1
+secrets:
+  htpasswd: "registry-auth-secret"
