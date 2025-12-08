@@ -15,14 +15,19 @@
 ## == Setup the Image Registry ==
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
-
-helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
-# Alternatively install using the yaml
-# kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.4/cert-manager.yaml
-
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --version v1.13.3 --set installCRDs=true
 kubectl apply -f dev/cluster-issuer.yaml
 
 
-## == Setup the Certificate Manager ==
+# Create a secret
 # sudo apt install apache2-utils
+# htpasswd -c -B -b auth myuser mypassword
+htpasswd -Bc auth admin
+kubectl create secret generic registry-auth-secret --from-file=htpasswd=auth --namespace default
 
+
+## == Setup the Certificate Manager ==
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+helm install private-registry bitnami/docker-registry -f bitnami-values.yaml --namespace default
