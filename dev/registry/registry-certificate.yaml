@@ -1,0 +1,14 @@
+# registry-certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: registry-cert
+  namespace: registry
+spec:
+  secretName: registry-tls
+  issuerRef:
+    name: letsencrypt-prod # selfsigned-issuer  # or ca-issuer for internal use
+    kind: ClusterIssuer
+  dnsNames:
+  - registry.svc.cluster.org
+  # - registry.example.com  # if you have external access
