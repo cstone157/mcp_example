@@ -1,12 +1,13 @@
-{{- $object := .Values.nifi -}}
-{{- $_ := set $object "version" .Values.version -}}
-{{- if not $object.namespace -}}
-    {{- $_ := set $object "namespace" .Values.namespace -}}
-{{- end }}
-{{- /* Add Services if they are required */}}
-{{- template "mychart.service" $object }}
-
+{{- $object := .Values -}}
 {{- if $object.enabled }}
+  {{- $_ := set $object "version" .Values.version -}}
+  {{- if not $object.namespace -}}
+      {{- $_ := set $object "namespace" .Values.namespace -}}
+  {{- end }}
+
+  {{- /* Add Services if they are required */}}
+  {{- template "mychart.service" $object }}
+
 ---
 #apiVersion: extensions/v1beta1
 apiVersion: networking.k8s.io/v1

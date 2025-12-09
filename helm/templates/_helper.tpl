@@ -17,6 +17,7 @@
 {{- define "mychart.metadata" }}
 metadata:
   name: {{ .name }}
+  # namespace: {{ default "default" .namespace }}
   namespace: {{ default "default" .namespace }}
   {{- include "mychart.labels" $ }}
 {{- end }} # End of the mychart.metadata template
@@ -24,7 +25,7 @@ metadata:
 
 {{/* Generate a service for my charts, based upon the passed object */}}
 {{- define "mychart.service" }}
-{{- if and .enabled .service }} 
+{{- if and .enabled .service }}
 apiVersion: v1
 kind: Service
 {{- template "mychart.metadata" $ }}

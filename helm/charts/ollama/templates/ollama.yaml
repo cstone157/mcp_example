@@ -1,92 +1,108 @@
 {{- $object := .Values -}}
-{{- $_ := set $object "version" .Values.global.version -}}
-{{- if not $object.namespace -}}
-    {{- $_ := set $object "namespace" .Values.global.namespace -}}
-{{- end }}
-## Generate the Service using the helper function to create our service
-{{- template "mychart.service" $object }}
-
 {{- if $object.enabled }}
----
-## Generate the StatefulSet for the ollama pod
-apiVersion: apps/v1
-kind: StatefulSet
-{{- template "mychart.metadata" $object }}
-spec:
-  replicas: {{ $object.replicas }}
-  serviceName: {{ $object.name }}
-  selector:
-    matchLabels:
-      app: {{ $object.name }}
-  template:
-    metadata:
-      labels:
-        app: {{ $object.name }}
-    spec:
-      containers:
-      - name: {{ $object.name }}
-        image: {{ $object.image }}
-        imagePullPolicy: {{ $object.imagePullPolicy }}
-        ports:
-        {{- range $object.service }}
-        - containerPort: {{ .port }}
-        {{- if .name }}
-          name: {{ .name }}
-        {{- end }}
-        {{- if .protocol }}
-          protocol: {{ .protocol }}
-        {{- end }}
-        {{- end }}
-        env:
-          {{- range $object.env }}
-          - name: {{ .name | quote }}
-            value: {{ .value | quote }}
-          {{- end }}
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", "for model in $PRELOAD_MODELS; do ollama run $model \"\"; done"]
-        resources: # Commendted out, everytime this resource setup is deployed on a rancher desktop it will crash
-          requests:
-            cpu: "2000m"
-            memory: "4Gi"
-          limits:
-            cpu: "4000m"
-            memory: "16Gi"
-            nvidia.com/gpu: "0"
-        volumeMounts:
-        - name: ollama-volume
-          mountPath: /root/.ollama
-      volumes:
-        - name: {{ $object.persistence.name }} # ollama-storage
-          {{- if $object.persistence.enabled }}
-          persistentVolumeClaim:
-            claimName: {{ $object.persistence.name }}
-          {{- else }}
-          emptyDir: {}
-          {{- end }}
----
-{{- if $object.persistence.enabled }}
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: {{ $object.persistence.name }}
-  namespace: {{ default "default" $object.namespace }}
-  {{- include "mychart.labels" $object }}
-{{/*
-  # name: {{ include "helm.fullname" . }}
-  # labels:
-  #   {{- include "helm.labels" . | nindent 4 }}
-*/}}
-spec:
-  accessModes:
-    - {{ $object.persistence.accessMode }}
-  resources:
-    requests:
-      storage: {{ $object.persistence.size }}
-  {{- if $object.persistence.storageClass }}
-  storageClassName: {{ $object.persistence.storageClass }}
+  {{- $_ := set $object "version" .Values.global.version -}}
+  {{- if not $object.namespace -}}
+    {{- $_ := set $object "namespace" .Values.global.namespace -}}
   {{- end }}
+
+  {{/* Add Service if they are required */}} 
+  {{- template "mychart.service" $object }}
+
+  {{/* Add Statefulset if they are required */}}
+  {{- template "mychart.statefulset" $object }}
 {{- end }}
 
-{{- end }}
+
+
+# {{- $_ := set $object "version" .Values.global.version -}}
+# {{- if not $object.namespace -}}
+#     {{- $_ := set $object "namespace" .Values.global.namespace -}}
+# {{- end }}
+# ## Generate the Service using the helper function to create our service
+# {{- template "mychart.service" $object }}
+
+# {{- if $object.enabled }}
+# ---
+# ## Generate the StatefulSet for the ollama pod
+# apiVersion: apps/v1
+# kind: StatefulSet
+# {{- template "mychart.metadata" $object }}
+# spec:
+#   replicas: {{ $object.replicas }}
+#   serviceName: {{ $object.name }}
+#   selector:
+#     matchLabels:
+#       app: {{ $object.name }}
+#   template:
+#     metadata:
+#       labels:
+#         app: {{ $object.name }}
+#     spec:
+#       containers:
+#       - name: {{ $object.name }}
+#         image: {{ $object.image }}
+#         imagePullPolicy: {{ $object.imagePullPolicy }}
+#         ports:
+#         {{- range $object.service }}
+#         - containerPort: {{ .port }}
+#         {{- if .name }}
+#           name: {{ .name }}
+#         {{- end }}
+#         {{- if .protocol }}
+#           protocol: {{ .protocol }}
+#         {{- end }}
+#         {{- end }}
+#         env:
+#           {{- range $object.env }}
+#           - name: {{ .name | quote }}
+#             value: {{ .value | quote }}
+#           {{- end }}
+#         lifecycle:
+#           postStart:
+#             exec:
+#               command: ["/bin/sh", "-c", "for model in $PRELOAD_MODELS; do ollama run $model \"\"; done"]
+#         resources: # Commendted out, everytime this resource setup is deployed on a rancher desktop it will crash
+#           requests:
+#             cpu: "2000m"
+#             memory: "4Gi"
+#           limits:
+#             cpu: "4000m"
+#             memory: "16Gi"
+#             nvidia.com/gpu: "0"
+#         volumeMounts:
+#         - name: ollama-volume
+#           mountPath: /root/.ollama
+#       volumes:
+#         - name: {{ $object.persistence.name }} # ollama-storage
+#           {{- if $object.persistence.enabled }}
+#           persistentVolumeClaim:
+#             claimName: {{ $object.persistence.name }}
+#           {{- else }}
+#           emptyDir: {}
+#           {{- end }}
+# ---
+# {{- if $object.persistence.enabled }}
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: {{ $object.persistence.name }}
+#   namespace: {{ default "default" $object.namespace }}
+#   {{- include "mychart.labels" $object }}
+# {{/*
+#   # name: {{ include "helm.fullname" . }}
+#   # labels:
+#   #   {{- include "helm.labels" . | nindent 4 }}
+# */}}
+# spec:
+#   accessModes:
+#     - {{ $object.persistence.accessMode }}
+#   resources:
+#     requests:
+#       storage: {{ $object.persistence.size }}
+#   {{- if $object.persistence.storageClass }}
+#   storageClassName: {{ $object.persistence.storageClass }}
+#   {{- end }}
+# {{- end }}
+
+# {{- end }}
+
