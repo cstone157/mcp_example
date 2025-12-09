@@ -1,6 +1,6 @@
 {{- $object := .Values -}}
 {{- if $object.enabled }}
-  {{- $_ := set $object "version" .Values.global.version -}}
+  {{- $_ := set $object "version" .Values.global.version -}}  
   {{- if not $object.namespace -}}
     {{- $_ := set $object "namespace" .Values.global.namespace -}}
   {{- end }}

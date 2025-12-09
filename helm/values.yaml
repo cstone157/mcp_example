@@ -11,7 +11,7 @@ postgres:
 pgadmin:
   enabled: true
 nifi:
-  enabled: true
+  enabled: false
 
 ollama:
   enabled: true
