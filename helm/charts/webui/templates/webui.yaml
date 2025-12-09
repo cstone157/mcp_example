@@ -24,6 +24,9 @@ spec:
             port:
               number: 30000
 ---
+  {{/* Add Statefulset if they are required */}}
+  {{- template "mychart.statefulset" $object }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
