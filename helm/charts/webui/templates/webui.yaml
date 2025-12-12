@@ -26,6 +26,9 @@ spec:
 ---
   {{/* Add Statefulset if they are required */}}
   {{- template "mychart.statefulset" $object }}
+
+{{/*
+## DEPLOYMENT VERSION
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -65,6 +68,7 @@ spec:
 #        persistentVolumeClaim:
 #          claimName: open-webui-pvc
 # ---
+# # PVC
 # apiVersion: v1
 # kind: PersistentVolumeClaim
 # {{- template "mychart.metadata" $object }}
@@ -73,4 +77,6 @@ spec:
 #   resources:
 #     requests:
 #       storage: 2Gi
+*/}}
+
 {{- end }}

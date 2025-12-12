@@ -139,11 +139,22 @@ spec:
       - name: {{ .name }}
         image: {{ .image }}
         imagePullPolicy: {{ .imagePullPolicy }}
+        {{- if .env }}
         env:
           {{- range .env }}
           - name: {{ .name | quote }}
             value: {{ .value | quote }}
           {{- end }}
+        {{- end }}
+        {{- if .resources }}
+        resources: 
+          requests:
+            cpu: {{ .resources.requests.cpu | quote }}
+            memory: {{ .resources.requests.memory | quote }}
+          limits:
+            cpu: {{ .resources.limits.cpu | quote }}
+            memory: {{ .resources.limits.memory | quote }}
+        {{- end }}
         ports:
         {{- range .service }}
         - containerPort: {{ .port }}

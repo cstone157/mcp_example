@@ -5,7 +5,7 @@
 enabled: true
 namespace: tmdash
 name: ollama
-image: ollama/ollama:0.13.11
+image: ollama/ollama:0.13.2
 imagePullPolicy: IfNotPresent
 replicas: 1
 env:
@@ -29,38 +29,19 @@ persistence:
   accessMode: ReadWriteOnce
 #  storageClass: "standard" # Uncomment if you need a specific class
 
-# resources: {}
-#   # limits:
-#   #   nvidia.com/gpu: 1  # Uncomment if your cluster has GPUs
-
-# image:
-#   repository: ollama/ollama
-#   tag: latest
-#   pullPolicy: IfNotPresent
-
+# Limit the resources.
+resources: 
+  requests:
+    cpu: "2000m"
+    memory: "4Gi"
+  limits:
+    cpu: "4000m"
+    memory: "16Gi"
 
 
 # ------------------------------------------------------------------------------
 #   
 # ------------------------------------------------------------------------------
-# service: true
-# serviceName: pgadmin
-# name: pgadmin
-# image: dpage/pgadmin4:7.8
-# imagePullPolicy: IfNotPresent
-# replicas: 1
-# env:
-#   - name: PGADMIN_DEFAULT_EMAIL
-#     value: "admin@email.com"
-#   - name: PGADMIN_DEFAULT_PASSWORD
-#     value: "admin"
-# service_type: NodePort
-# service:
-#   - protocol: TCP
-#     port: 80
-#     targetPort: 80
-#     nodePort: 30010
-
 # apiVersion: apps/v1
 # kind: StatefulSet
 # metadata:

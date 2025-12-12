@@ -13,7 +13,7 @@
 {{- end }}
 
 
-
+{{/*
 # {{- $_ := set $object "version" .Values.global.version -}}
 # {{- if not $object.namespace -}}
 #     {{- $_ := set $object "namespace" .Values.global.namespace -}}
@@ -92,7 +92,7 @@
 #   # name: {{ include "helm.fullname" . }}
 #   # labels:
 #   #   {{- include "helm.labels" . | nindent 4 }}
-# */}}
+# # /}} // MULTI-LINE COMMENT
 # spec:
 #   accessModes:
 #     - {{ $object.persistence.accessMode }}
@@ -106,3 +106,4 @@
 
 # {{- end }}
 
+*/}}
