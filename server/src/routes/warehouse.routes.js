@@ -1,18 +1,18 @@
 // src/routes/cat.routes.js
 import express from 'express';
 import { 
-  getCats, 
-  createCat, 
-  updateCat, 
-  deleteCat 
-} from '../controllers/cat.controller.js';
+  getWarehouses, 
+  createWarehouse, 
+  updateWarehouse, 
+  deleteWarehouse 
+} from '../controllers/warehouse.controller.js';
 
 const router = express.Router();
 
 // Define routes
-router.get('/', getCats);
-router.post('/', createCat);
-router.put('/:id', updateCat);
-router.delete('/:id', deleteCat);
+router.get('/', getWarehouses);
+router.post('/', createWarehouse);
+router.put('/:id', updateWarehouse);
+router.delete('/:id', deleteWarehouse);
 
 export default router;

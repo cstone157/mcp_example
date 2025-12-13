@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import catRoutes from './routes/cat.routes.js'
-import peopleRoutes from './routes/people.routes.js';
-import adoptionRoutes from './routes/adoption.routes.js';
+import partRoutes from './routes/part.routes.js'
+import warehouseRoutes from './routes/warehouse.routes.js';
+import warehousePartRoutes from './routes/warehousePart.routes.js';
 
 const app = express();
 
@@ -20,9 +20,9 @@ app.get('/health', (req, res) => {
 });
 
 // Mount Routes
-app.use('/api/cats', catRoutes);
-app.use('/api/people', peopleRoutes);
-app.use('/api/adoptions', adoptionRoutes);
+app.use('/api/part', partRoutes);
+app.use('/api/warehouse', warehouseRoutes);
+app.use('/api/warehousePart', warehousePartRoutes);
 
 // 404 Handler
 app.use((req, res) => {
