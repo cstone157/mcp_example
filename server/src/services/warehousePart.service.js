@@ -3,11 +3,11 @@ let warehouseParts = [
     { partId: '1', warehouseId: '1', number: 10000, row: '1', shelf: '1' }
   ];
   
-  export const getAllWarehousePartss = () => {
-    return warehousePartss;
+  export const getAllWarehouseParts = () => {
+    return warehouseParts;
   };
   
-  export const createWarehouseParts = (warehousePartsData) => {
+  export const createWarehousePart = (warehousePartsData) => {
     const newWarehousePart = {
       id: Date.now().toString(), // Simple ID generation
       ...warehousePartData

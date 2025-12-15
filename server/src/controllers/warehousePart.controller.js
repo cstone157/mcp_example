@@ -1,11 +1,11 @@
 import * as warehousePartService from '../services/warehousePart.service.js';
 
-export const getwarehouseParts = (req, res) => {
-  const warehouseParts = warehousePartService.getAllwarehouseParts();
+export const getWarehouseParts = (req, res) => {
+  const warehouseParts = warehousePartService.getAllWarehouseParts();
   res.status(200).json(warehouseParts);
 };
 
-export const createwarehousePart = (req, res) => {
+export const createWarehousePart = (req, res) => {
   const { name, description } = req.body;
 
   // Basic Validation

@@ -1,17 +1,17 @@
 import express from 'express';
 import { 
-  getWarehousePartss, 
-  createWarehouseParts, 
-  updateWarehouseParts, 
-  deleteWarehouseParts 
-} from '../controllers/warehouseParts.controller.js';
+  getWarehouseParts, 
+  createWarehousePart, 
+  updateWarehousePart, 
+  deleteWarehousePart 
+} from '../controllers/warehousePart.controller.js';
 
 const router = express.Router();
 
 // Define routes
-router.get('/', getWarehousePartss);
-router.post('/', createWarehouseParts);
-router.put('/:id', updateWarehouseParts);
-router.delete('/:id', deleteWarehouseParts);
+router.get('/', getWarehouseParts);
+router.post('/', createWarehousePart);
+router.put('/:id', updateWarehousePart);
+router.delete('/:id', deleteWarehousePart);
 
 export default router;
