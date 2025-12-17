@@ -14,3 +14,8 @@ $ pip freeze > requirements.txt
 
 ### Deactivate enviroment
 $ deactivate
+
+## ===============================================
+
+### Build the image
+nerdctl build --namespace k8s.io -t tmdash-mcp:v0.1 -f Dockerfile .
