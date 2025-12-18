@@ -1,4 +1,2 @@
-auth
+.vscode
 
-## Remove the local enviroment for the python development
-mcp/venv/

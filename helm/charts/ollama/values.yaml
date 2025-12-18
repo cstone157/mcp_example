@@ -3,7 +3,7 @@
 # Ollama :
 # ------------------------------------------------------------------------------
 enabled: true
-namespace: tmdash
+namespace: mcp-example
 name: ollama
 image: ollama/ollama:0.13.2
 imagePullPolicy: IfNotPresent

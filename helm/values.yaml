@@ -2,7 +2,7 @@
 # # General informations:
 # # ------------------------------------------------------------------------------
 global:
-  namespace: tmdash
+  namespace: mcp-example
   version: "0.1a"
   replicaCount: 1
 
