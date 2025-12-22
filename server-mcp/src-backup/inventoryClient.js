@@ -163,3 +163,4 @@ class InventoryClient {
 }
 
 module.exports = InventoryClient;
+ 

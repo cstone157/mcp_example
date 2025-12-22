@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mcp-example-server
+  name: mcp-example-server
+  namespace: mcp-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-example-server
+  serviceName: mcp-example-server
+  template:
+    metadata:
+      labels:
+        app: mcp-example-server
+    spec:
+      containers:
+      - env:
+        - name: WEBSERVICE_HOST
+          value: "mcp-example-webservice"
+        - name: WEBSERVICE_PORT
+          value: "3000"
+        - name: WEBSERVICE_PATH
+          value: "/api/"
+        - name: WEBSERVICE_API_KEY
+          value: "your_api_key_here"
+        image: mcp-example-server:v0.1
+        imagePullPolicy: IfNotPresent
+        name: mcp-example-server
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
