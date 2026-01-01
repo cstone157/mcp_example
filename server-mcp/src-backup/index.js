@@ -1,19 +1,38 @@
 // const { Server } = require('@modelcontextprotocol/sdk/dist/cjs/server');
-const { Server, StdioServerTransport } = require('@modelcontextprotocol/sdk/server/index.js');
-const { 
+// const { Server, StdioServerTransport } = require('@modelcontextprotocol/sdk/server/index.js');
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+// const { 
+import { 
     CallToolRequestSchema, ListToolsRequestSchema, 
     ListResourcesRequestSchema, ReadResourceRequestSchema 
-} = require('@modelcontextprotocol/sdk/types.js');
-const InventoryClient = require('./inventoryClient');
-const tools = require('./inventoryTools');
+// } = require('@modelcontextprotocol/sdk/types.js');
+} from '@modelcontextprotocol/sdk/types.js';
+// const InventoryClient = require('./inventoryClient');
+import { InventoryClient } from './inventoryClient.js';
+// const tools = require('./inventoryTools');
+import { tools } from './inventoryTools.js';
 
 
 const inventoryClient = new InventoryClient();
 
-const server = new Server({
-  name: 'inventory-mcp-server',
-  version: '1.0.0',
-});
+// const server = new Server({
+//   name: 'inventory-mcp-server',
+//   version: '1.0.0',
+// });
+
+const server = new Server(
+  {
+    name: "mcp-example-server",
+    version: "0.0.1",
+  },
+  {
+    capabilities: {
+      tools: {},
+      resources: {},
+    },
+  }
+);
 
 
 

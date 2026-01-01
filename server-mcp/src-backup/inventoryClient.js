@@ -1,9 +1,12 @@
-const axios = require('axios');
-require('dotenv').config();
+// const axios = require('axios');
+import axios from 'axios';
+// require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const WEBSERVICE_URL = process.env.WEBSERVICE_URL || 'http://localhost:3000';
 
-class InventoryClient {
+export class InventoryClient {
   constructor() {
     this.client = axios.create({
       baseURL: WEBSERVICE_URL,
@@ -162,5 +165,4 @@ class InventoryClient {
   }
 }
 
-module.exports = InventoryClient;
- 
+// module.exports = InventoryClient; 

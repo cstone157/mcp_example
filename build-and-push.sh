@@ -38,3 +38,15 @@ echo "  - ${WEBSERVICE_IMAGE}"
 echo ""
 echo "Update k8s-deployment.yaml with these image names and deploy:"
 echo "  kubectl apply -f mcp-server/k8s-deployment.yaml"
+
+
+# Build MCP example server and service using nerdctl
+nerdctl build --tag mcp-example-server:v0.1 --file ./server-mcp/Dockerfile -namespace=k8s.io ./server-mcp/.
+nerdctl build --tag mcp-example-service:v0.1 --file ./server-api/Dockerfile -namespace=k8s.io ./server-api/.
+
+# Deploy the master helm chart
+helm install mcp-example ./helm/
+
+# Push MCP example server and service using helm
+helm install mcp-server ./server-mcp/helm/
+helm install mcp-webservice ./server-api/helm/

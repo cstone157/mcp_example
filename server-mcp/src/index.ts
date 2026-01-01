@@ -72,13 +72,19 @@ server.setRequestHandler(
   }
 );
 
+console.error("Starting Example MCP Server... 1");
+
 async function runServer() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error("Example MCP Server running on stdio");
 }
 
+console.error("Starting Example MCP Server... 2");
+
 runServer().catch((error) => {
   console.error("Fatal error in main():", error);
   process.exit(1);
 });
+
+console.error("Starting Example MCP Server... 3");
