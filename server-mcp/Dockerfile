@@ -9,7 +9,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY tsconfig.json ./
+# COPY tsconfig.json ./
 
 # Copy source code
 # COPY --chown=nodejs:nodejs src/ ./src/
@@ -45,7 +45,7 @@ RUN npm install
 EXPOSE 3000
 
 # Build the project
-RUN npm run build
+# RUN npm run build
 
 # # Health check
 # HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
