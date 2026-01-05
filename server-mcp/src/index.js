@@ -310,5 +310,9 @@ async function main() {
   await server.connect(transport);
   console.error('Inventory MCP Server running on stdio');
 }
+// main().catch(console.error);
 
-main().catch(console.error);
+main().catch((error) => {
+  console.error("Unhandled error during server startup:", error);
+  process.exit(1);
+})
