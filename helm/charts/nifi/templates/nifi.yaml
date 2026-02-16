@@ -46,14 +46,14 @@ spec:
         - name: {{ $object.name }}
           image: {{ $object.image }}
           imagePullPolicy: {{ $object.imagePullPolicy }}
-          resources:
-            requests:
-              cpu: "2000m"
-              memory: "2Gi"
-            limits:
-              cpu: "4000m"
-              memory: "4Gi"
-              nvidia.com/gpu: "0"
+          # resources:
+          #   requests:
+          #     cpu: "2000m"
+          #     memory: "2Gi"
+          #   limits:
+          #     cpu: "4000m"
+          #     memory: "4Gi"
+          #     nvidia.com/gpu: "0"
           ports:
           - containerPort: 31000
             name: http-port
