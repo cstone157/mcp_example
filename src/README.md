@@ -7,5 +7,7 @@ source myenv/bin/activate  # Linux/Mac
 myenv\Scripts\activate     # Windows
 
 ## Install libraries
-pip install fastmcp ollama requests
+pip install langchain ollama langchain-ollama
 
+## Freeze requirements
+pip freeze > requirements.txt
