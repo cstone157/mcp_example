@@ -1,7 +1,7 @@
 # # -----------------------------------------------------------
 # # Postgresql : 
 # # -----------------------------------------------------------
-enabled: true
+enabled: false
 serviceName: postgres
 name: postgres
 # Use the timescaledb, since includes ai extension, since rke2 blocks a lot of the apt-get stuff

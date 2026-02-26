@@ -7,9 +7,9 @@ global:
   replicaCount: 1
 
 postgres:
-  enabled: true
+  enabled: false
 pgadmin:
-  enabled: true
+  enabled: false
 nifi:
   enabled: false
 
