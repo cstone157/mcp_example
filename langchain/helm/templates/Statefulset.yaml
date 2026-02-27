@@ -1,33 +1,3 @@
-{{/*
-# apiVersion: apps/v1
-# kind: StatefulSet
-# metadata:
-#   labels:
-#     app: langchain-example
-#   name: langchain-example
-#   namespace: mcp-example
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: langchain-example
-#   serviceName: langchain-example
-#   template:
-#     metadata:
-#       labels:
-#         app: langchain-example
-#     spec:
-#       containers:
-#         image: langchain:v0.1
-#         imagePullPolicy: IfNotPresent
-#         name: langchain-example
-#         ports:
-#         - containerPort: 8080
-#           protocol: TCP
-#         resources: {}
-#       restartPolicy: Always
-*/}}
----
 {{- $object := .Values -}}
 {{- if $object.enabled }}
   {{- $_ := set $object "version" .Values.global.version -}}

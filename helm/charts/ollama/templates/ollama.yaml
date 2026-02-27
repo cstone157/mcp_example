@@ -105,5 +105,40 @@
 # {{- end }}
 
 # {{- end }}
+*/}}
 
+{{/*
+## This is a network policy that allows network traffic to the ollama pod only from a specific namespace / label selector.
+## Google search => "kubernetes allow only certain other pods to access container"
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress-to-restricted-app
+  namespace: default # Apply to a specific namespace
+spec:
+  podSelector:
+    matchLabels:
+      app: restricted-app # Selects the target pods
+  policyTypes:
+    - Ingress
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-specific-pods-to-restricted-app
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: restricted-app # Selects the target pods
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              access: "granted" # Only allow pods with this label to connect
+      ports:
+        - protocol: TCP
+          port: 80 # Specify the container port allowed for access
 */}}

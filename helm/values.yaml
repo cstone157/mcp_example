@@ -7,7 +7,7 @@ global:
   replicaCount: 1
 
 postgres:
-  enabled: false
+  enabled: true
 pgadmin:
   enabled: false
 nifi:
@@ -18,6 +18,15 @@ ollama:
 webui:
   enabled: true
 
+env:
+  - name: POSTGRES_USER
+    value: "postgres"
+  - name: POSTGRES_PASSWORD
+    value: "postgres"
+  - name: POSTGRES_HOST
+    value: "postgres"
+  - name: POSTGRES_PORT
+    value: "5432"
 
 # # ------------------------------------------------------------------------------
 # # Airflow :

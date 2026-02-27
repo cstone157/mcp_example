@@ -19,3 +19,13 @@ env:
     value: "11434"
   - name: OLLAMA_MODEL_NAME 
     value: "mistral:7b"
+  - name: POSTGRES_HOST
+    value: "postgres"
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DB
+    value: "langchain"
+  - name: POSTGRES_USER
+    value: "postgres"
+  - name: POSTGRES_PASSWORD
+    value: "postgres" ## Move this to a secret in production
