@@ -51,3 +51,18 @@ class PostgresDBFactory:
                 print(f"Error setting up database: {e}")
             finally:
                 self.close_connection(conn)
+    
+    def insert_chat_request(self, chat_message):
+        conn = self.create_connection()
+        if conn:
+            try:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    INSERT INTO chat_request (chat_message) VALUES (%s);
+                """, (chat_message,))
+                conn.commit()
+                print("Chat request inserted successfully!")
+            except Exception as e:
+                print(f"Error inserting chat request: {e}")
+            finally:
+                self.close_connection(conn)
