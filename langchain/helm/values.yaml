@@ -1,0 +1,31 @@
+global:
+  namespace: mcp-example
+  version: "0.1a"
+  replicaCount: 1
+
+
+# This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+
+enabled: true
+namespace: mcp-example
+name: langchain-example
+image: langchain:v0.1
+imagePullPolicy: IfNotPresent
+env:
+  - name: OLLAMA_HOST_NAME
+    value: "ollama"
+  - name: OLLAMA_HOST_PORT
+    value: "11434"
+  - name: OLLAMA_MODEL_NAME 
+    value: "mistral:7b"
+  - name: POSTGRES_HOST
+    value: "postgres"
+  - name: POSTGRES_PORT
+    value: "5432"
+  - name: POSTGRES_DB
+    value: "langchain"
+  - name: POSTGRES_USER
+    value: "postgres"
+  - name: POSTGRES_PASSWORD
+    value: "postgres" ## Move this to a secret in production

@@ -1,0 +1,109 @@
+# MCP Server Helm Values
+replicaCount: 2
+
+image:
+  repository: mcp-example-service
+  pullPolicy: IfNotPresent
+  tag: "v0.1"
+
+imagePullSecrets: []
+
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations:
+  prometheus.io/scrape: "false"
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  fsGroup: 1001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+    - ALL
+
+service:
+  type: ClusterIP
+  port: 3000
+  targetPort: 3000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - inventory-mcp-server
+        topologyKey: kubernetes.io/hostname
+
+env:
+  - name: NODE_ENV
+    value: "production"
+  - name: WEBSERVICE_URL
+    # value: "http://inventory-webservice:3000"
+    value: "http://0.0.0.0:3000"
+
+livenessProbe:
+  exec:
+    command:
+    - node
+    - -e
+    - "console.log('alive')"
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  exec:
+    command:
+    - node
+    - -e
+    - "console.log('ready')"
+  initialDelaySeconds: 10
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 2
+
+# Pod Disruption Budget
+podDisruptionBudget:
+  enabled: true
+  minAvailable: 1
+
+# Network Policy
+networkPolicy:
+  enabled: false
+  ingress: []
+  egress: []

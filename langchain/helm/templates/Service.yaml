@@ -1,0 +1,15 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   annotations:
+#   labels:
+#     app: langchain-example
+#   name: langchain-example
+#   namespace: mcp-example
+# spec:
+#   ports:
+#   - port: 3000
+#     protocol: TCP
+#     targetPort: 3000
+#   selector:
+#     app: langchain-example

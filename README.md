@@ -15,3 +15,5 @@
     - [ ] Webservices that pull / store certain data
     - [ ] A MCP service to handle requests for ollama
     - [ ] An actual AI for quering using the data stored by our MCP server
+
+

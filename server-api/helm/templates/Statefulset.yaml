@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: mcp-example-webservice
+  name: mcp-example-webservice
+  namespace: mcp-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mcp-example-webservice
+  serviceName: mcp-example-webservice
+  template:
+    metadata:
+      labels:
+        app: mcp-example-webservice
+    spec:
+      containers:
+      - env:
+        - name: NODE_ENV
+          value: "development"
+        - name: PORT
+          value: "3000"
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "inventory_db"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "postgres"
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: admin@email.com
+        image: mcp-example-service:v0.1
+        imagePullPolicy: IfNotPresent
+        name: mcp-example-webservice
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always

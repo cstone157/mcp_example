@@ -1,0 +1,29 @@
+{
+  "name": "server-mcp",
+  "version": "0.0.1",
+  "description": "MCP Server for Plausible Analytics",
+  "license": "MIT",
+  "type": "module",
+  "author": "",
+  "bin": {
+    "mcp-server": "src/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.7.0",
+    "@types/node": "^22",
+    "axios": "^1.13.2",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "shx": "^0.3.4",
+    "typescript": "^5.8.2"
+  },
+  "keywords": []
+}

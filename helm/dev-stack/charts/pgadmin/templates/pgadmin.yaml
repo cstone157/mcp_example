@@ -1,0 +1,36 @@
+{{- $object := .Values -}}
+{{- if $object.enabled }}
+  {{- $_ := set $object "version" .Values.global.version -}}
+  {{- if not $object.namespace -}}
+    {{- $_ := set $object "namespace" .Values.global.namespace -}}
+  {{- end }}
+
+
+  {{/* Add Service if they are required */}} 
+  {{- template "mychart.service" $object }}
+
+  {{/* Add Statefulset if they are required */}}
+  {{- template "mychart.statefulset" $object }}
+
+  {{/* Add PersistentVolumeClaims if they are required */}}
+  {{- template "mychart.persistent_volume_claim" $object }}
+
+  {{/* Add PersistentVolumes if they are required */}}
+  {{- template "mychart.persistent_volume" $object }}
+
+  # apiVersion: networking.k8s.io/v1
+  # kind: Ingress
+  # {{- template "mychart.metadata" $object }}
+  # spec:
+  #   rules:
+  #   - host: localhost
+  #     http:
+  #       paths:
+  #       - path: /pgadmin
+  #         pathType: Prefix
+  #         backend:
+  #           service:
+  #             name: {{ $object.name }}
+  #             port:
+  #               number: 30010
+{{- end }}
