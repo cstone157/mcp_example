@@ -52,3 +52,22 @@ helm install mcp-example ./helm/
 helm install mcp-server ./server-mcp/helm/
 helm install mcp-webservice ./server-api/helm/
 # helm install langchain ./langchain/helm/
+
+## ===========================================================================================
+## https://medium.com/@muppedaanvesh/a-hands-on-guide-to-kubernetes-logging-using-elk-stack-filebeat-part-4-%EF%B8%8F-48e233443961
+## ===========================================================================================
+helm repo add elastic https://helm.elastic.co
+helm repo update
+
+echo 'resources:
+  requests:
+    cpu: "200m"
+    memory: "200Mi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+antiAffinity: "soft"' > elasticsearch-values.yaml
+
+kubectl create namespace logging
+helm install elasticsearch elastic/elasticsearch -f elasticsearch-values.yaml --namespace=logging
