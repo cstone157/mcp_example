@@ -1,0 +1,62 @@
+{{- if .Values.enabled }}
+{{ $object := .Values }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.name }}-pvc
+  namespace: {{ .Values.global.namespace }}
+  {{- include "mychart.labels" $ }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+{{- include "mychart.metadata" $ | indent 2 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      securityContext:
+        fsGroup: 472
+        runAsUser: 472
+      containers:
+        - name: grafana
+          image: grafana/grafana:12.3
+          ports:
+            - containerPort: 3000
+              name: http-grafana
+          env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              value: "admin" # Change this for production!
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-storage
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.name }}-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+{{- include "mychart.metadata" $ | indent 2 }}
+spec:
+  type: NodePort # Change to LoadBalancer if on AWS/GCP/Azure
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 32000
+  selector:
+    app: grafana
+{{- end }}
