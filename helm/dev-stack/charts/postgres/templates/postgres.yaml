@@ -5,12 +5,101 @@
     {{- $_ := set $object "namespace" .Values.global.namespace -}}
   {{- end }}
 
+{{/* Add ConfigMap if they are required */}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  namespace: {{ default "default" $object.namespace }}
+data:
+  postgresql.conf: |-
+    {{ .Files.Get "config/postgresql.conf" | nindent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-elastic-agent-config
+  namespace: {{ default "default" $object.namespace }}
+data:
+  elastic-agent.yml: |-
+    {{ .Files.Get "/elastic-agent.yml" | nindent 4 }}
+---
 
   {{/* Add Service if they are required */}} 
   {{- template "mychart.service" $object }}
 
   {{/* Add Statefulset if they are required */}}
-  {{- template "mychart.statefulset" $object }}
+  {{/* {{- template "mychart.statefulset" $object }} */}}
+{{- if $object.enabled }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+{{- template "mychart.metadata" $object }}
+spec:
+  replicas: {{ $object.replicas }}
+  {{- if $object.serviceName }}
+  serviceName: {{ $object.serviceName }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ $object.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $object.name }}
+    spec:
+      {{- if $object.securityContext }}
+      securityContext:
+        {{- toYaml $object.securityContext | nindent 8 }}
+      {{- end }}
+      containers:
+      - name: {{ $object.name }}
+        image: {{ $object.image }}
+        imagePullPolicy: {{ $object.imagePullPolicy }}
+        {{- if $object.env }}
+        env:
+          {{- range $object.env }}
+          - name: {{ .name | quote }}
+            value: {{ .value | quote }}
+          {{- end }}
+        {{- end }}
+        {{- if $object.resources }}
+        resources: 
+          requests:
+            cpu: {{ $object.resources.requests.cpu | quote }}
+            memory: {{ $object.resources.requests.memory | quote }}
+          limits:
+            cpu: {{ $object.resources.limits.cpu | quote }}
+            memory: {{ $object.resources.limits.memory | quote }}
+        {{- end }}
+        ports:
+        {{- range $object.service }}
+        - containerPort: {{ .port }}
+        {{- if .name }}
+          name: {{ .name }}
+        {{- end }}
+        {{- end }}
+      {{- /* Add volumemounts/volumes if they are required */ -}}
+      {{- if $object.persistentVolume }}
+        volumeMounts:
+        - name: config
+          mountPath: /etc/postgresql/postgresql.conf
+          subPath: postgresql.conf
+        - name: postgres-elastic-agent-config
+          mountPath: /elastic-agent.yml
+          subPath: elastic-agent.yml
+        {{- range $object.persistentVolume.volumes }}
+        - name: {{ .name }}
+          mountPath: {{ .mountPath }}
+        {{- end }}
+      volumes:
+      {{- range $object.persistentVolume.volumes }}
+      - name: {{ .name }}
+        persistentVolumeClaim:
+          claimName: {{ .name }}
+      {{- end }}
+      {{- end }}
+{{- end }}
 
   {{/* Add PersistentVolumeClaims if they are required */}}
   {{- template "mychart.persistent_volume_claim" $object }}

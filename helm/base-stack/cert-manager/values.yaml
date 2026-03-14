@@ -1,9 +1,0 @@
-# ------------------------------------------------------------------------------
-# namespace:
-# ------------------------------------------------------------------------------
-namespace: cert-manager
-#   # name: cert-manager
-#   # app: cert-manager
-
-# cert-manager:
-#   namespace: cert-manager

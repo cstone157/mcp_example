@@ -1,0 +1,19 @@
+apiVersion: apm.k8s.elastic.co/v1
+kind: ApmServer
+metadata:
+  name: quickstart
+  # namespace: default
+  namespace: monitoring
+spec:
+  version: 8.12.0
+  count: 1
+  elasticsearchRef:
+    name: quickstart
+  kibanaRef:
+    name: quickstart
+  # This makes the APM server accessible via a public-facing URL if you have an Ingress, 
+  # or internally via the service name.
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: false # ECK will manage certificates automatically
