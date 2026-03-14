@@ -1,5 +1,0 @@
-global:
-  namespace: monitoring
-
-grafana:
-  enabled: true
