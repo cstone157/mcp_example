@@ -79,6 +79,18 @@ spec:
           name: {{ .name }}
         {{- end }}
         {{- end }}
+        # Modified command to download the agent before starting Postgres
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            # Download the agent to a writable directory (like /tmp)
+            cd /tmp
+            curl -L -O https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.3.1-linux-arm64.tar.gz
+            tar xzvf elastic-agent-9.3.1-linux-arm64.tar.gz
+            cd elastic-agent-9.3.1-linux-arm64
+            sudo ./elastic-agent install
+            # Return to home and start Postgres with the custom config
+            exec postgres -c config_file=/etc/postgresql/postgresql.conf
       {{- /* Add volumemounts/volumes if they are required */ -}}
       {{- if $object.persistentVolume }}
         volumeMounts:
