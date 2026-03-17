@@ -1,5 +1,13 @@
-# Installation
+## ===========================================================================================
+# helm repo add elastic https://helm.elastic.co
+# helm repo update
+# 
+# kubectl create namespace logging
+# helm install elasticsearch elastic/elasticsearch -f elasticsearch-values.yaml --namespace=logging
+## ===========================================================================================
 
+
+# Installation
 - Step 1
     - Install kubernetes
 - Step 2
@@ -30,3 +38,4 @@
 
 Add Postgresql integration (use UI - under integrations)
   - Add aggent
+
