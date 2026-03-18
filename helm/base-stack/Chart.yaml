@@ -1,0 +1,10 @@
+apiVersion: v2
+name: monitoring
+description: A helm chart for deploying the elastic stack into a air gapped enviroment
+
+type: application
+version: 0.1.0
+appVersion: "9.3.1"
+
+maintainers:
+- name: github.com/elastic
