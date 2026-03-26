@@ -5,7 +5,7 @@ outputs:
     type: elasticsearch
     hosts:
       - http://localhost:9200
-    api_key: do6-6JwBfQICzFqtxKrM:afEfoVFPalAlXhHqinS2SQ
+    api_key: '8gfjK50BvEf-lVHH3FGD:CT3slLQazYy8o6kUp43phw'
     preset: balanced
 output_permissions:
   default:

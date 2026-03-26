@@ -8,6 +8,7 @@ global:
 
 postgres:
   enabled: true
+  image: mcp-postgres:v0.1
 pgadmin:
   enabled: false
 nifi:
