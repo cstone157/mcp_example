@@ -1,21 +1,16 @@
-## ===========================================================================================
-# helm repo add elastic https://helm.elastic.co
-# helm repo update
-# 
-# kubectl create namespace logging
-# helm install elasticsearch elastic/elasticsearch -f elasticsearch-values.yaml --namespace=logging
-## ===========================================================================================
-
-
-# Installation
+## Installation
 - Step 1
     - Install kubernetes
 - Step 2
     - "Deploy an orchestrator" (Install ECK using a Helm chart) - https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/install-using-helm-chart
+    - $ helm repo add elastic https://helm.elastic.co && helm repo update
 - Step 3
     - "Deploy an Elasticsearch cluster" - https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/elasticsearch-deployment-quickstart
+    - (Skipped) $ # kubectl create namespace logging
+    - (Skipped) $ # helm install elasticsearch elastic/elasticsearch -f elasticsearch-values.yaml --namespace=logging
+    - $ helm install monitor .
 - Step 4
-    - "Deploy a Kibana instance" - https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/kibana-instance-quickstart
+    -  (Skipped, Included in the script)"Deploy a Kibana instance" - https://www.elastic.co/docs/deploy-manage/deploy/cloud-on-k8s/kibana-instance-quickstart
     - port forwarding:
         - $ kubectl port-forward service/quickstart-kb-http -n monitoring 5601
     - get password
@@ -24,10 +19,6 @@
 
 - Step 5
     - "Deploy filebeats-rbac and filebeats" - 
-
-
-
-
 - Setp 6
     - Deploy apm
 - get apm token
