@@ -91,10 +91,10 @@ spec:
         #     ./elastic-agent install
         #     # Return to home and start Postgres with the custom config
         #     exec postgres -c config_file=/etc/postgresql/postgresql.conf
-        lifecycle:
-          postStart:
-            exec:
-              command: ["/bin/sh", "-c", "curl -L -O --output-dir /tmp https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.3.1-linux-arm64.tar.gz && tar xzvf /tmp/elastic-agent-9.3.1-linux-arm64.tar.gz -C /tmp && /tmp/elastic-agent-9.3.1-linux-arm64/elastic-agent install"]
+        # lifecycle:
+        #   postStart:
+        #     exec:
+        #       command: ["/bin/sh", "-c", "curl -L -O --output-dir /tmp https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-9.3.1-linux-arm64.tar.gz && tar xzvf /tmp/elastic-agent-9.3.1-linux-arm64.tar.gz -C /tmp && /tmp/elastic-agent-9.3.1-linux-arm64/elastic-agent install"]
       {{- /* Add volumemounts/volumes if they are required */ -}}
       {{- if $object.persistentVolume }}
         volumeMounts:

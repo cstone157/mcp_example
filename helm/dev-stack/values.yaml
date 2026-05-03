@@ -8,6 +8,7 @@ global:
 
 postgres:
   enabled: true
+  image: mcp-postgres:v0.1
 pgadmin:
   enabled: false
 nifi:
@@ -27,42 +28,3 @@ env:
     value: "postgres"
   - name: POSTGRES_PORT
     value: "5432"
-
-# # ------------------------------------------------------------------------------
-# # Airflow :
-# # ------------------------------------------------------------------------------
-# # namespaceOverride: airflow
-# dags:
-#   gitSync: # git sync between our airflow works/schedulers
-#     enabled: false
-#     repo: https://<USER_NAME>:<USER_PAT>@gitlab.vulcan.mil/usaf-805th-cts/cba/tm-dash/prefect-flows.git
-#     branch: v01-dag
-#     subPath: ""
-# #     sshKeySecret: airflow-ssh-secret
-# # extraSecrets:
-# #   airflow-ssh-secret:
-# #     data: |
-# #       gitSshKey: '<base64-converted-ssh-private-key>'
-
-
-
-
-# # ------------------------------------------------------------------------------
-# # JupyterLab :
-# # ------------------------------------------------------------------------------
-# jupyter:
-#   enabled: false
-#   name: jupyter
-#   image: jupyter/minimal-notebook:notebook-7.0.6  # jupyter/minimal-notebook:x86_64-python-3.11.6 # jupyter/datascience-notebook:x86_64-ubuntu-22.04
-#   imagePullPolicy: IfNotPresent
-#   replicas: 1
-#   env:
-#     - name: JUPYTER_PORT  
-#       value: "8888"
-#     - name: RESTARTABLE
-#       value: "yes"
-#   service_type: NodePort
-#   service:
-#     - protocol: TCP
-#       nodePort: 30020
-#       port: 8888
